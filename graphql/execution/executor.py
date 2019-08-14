@@ -141,9 +141,22 @@ def execute(
 
         return ExecutionResult(data=data, errors=exe_context.errors)
 
-    promise = (
-        Promise.resolve(None).then(promise_executor).catch(on_rejected).then(on_resolve)
-    )
+    print(f'start {operation_name}')
+    print('p0')
+    p0 = Promise.resolve(None)
+    print('p1')
+    p1 = p0.then(promise_executor)
+    print('p2')
+    p2 = p1.catch(on_rejected)
+    print('p3')
+    p3 = p2.then(on_resolve)
+    print('done')
+
+    promise = p3
+
+    # promise = (
+    #     Promise.resolve(None).then(promise_executor).catch(on_rejected).then(on_resolve)
+    # )
 
     if not return_promise:
         exe_context.executor.wait_until_finished()
